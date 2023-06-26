@@ -49,4 +49,22 @@ describe("Home component", () => {
     const todoList = await screen.findAllByTestId("todo");
     expect(todoList).toHaveLength(2);
   });
+
+  it("should filter todos based on search input", async () => {
+    render(
+      <MemoryRouter>
+        <Home />
+      </MemoryRouter>
+    );
+
+    await waitFor(async () => Promise<void>);
+
+    const searchInput = screen.getByTestId("search");
+    fireEvent.change(searchInput, {
+      target: { value: "A" },
+    });
+    const todos = await screen.findAllByTestId("todo");
+
+    expect(todos).toHaveLength(1);
+  });
 });
